@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete{% endblock %}
+
+{% block menu %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'create_poll' %}"> Create Poll <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'watch_poll' choice.poll_choice.pk %}"> Cancel <span class="sr-only">(current)</span></a>
+      </li>
+{% endblock %}
+
+{% block content %}
+    <h1>Вы уверены, что хотите удалить этот вариант ответа из базы : <br> "{{ choice.text }}"?</h1>
+    <form action="{% url "delete_choice" choice.pk %}" method="post">
+        {% csrf_token %}
+        <p><input type="submit" value="Да"></p>
+        <p><a href="{% url 'watch_poll' choice.poll_choice.pk %}">Отмена</a></p>
+    </form>
+{% endblock %}

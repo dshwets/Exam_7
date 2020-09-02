@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}View{% endblock %}
+
+{% block menu %}
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'update_poll' poll.pk %}"> Edit Poll <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'delete_poll' poll.pk %}"> Delete Poll <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'create_answer' poll.pk %}"> Make Answer <span class="sr-only">(current)</span></a>
+      </li>
+{% endblock %}
+
+{% block content %}
+    <h1>{{ poll.question }}</h1>
+    <p>Date of Creation: {{ poll.created_at }}</p>
+    <h3 class="text-primary">Варианты ответов:</h3>
+    {% for choice in choices %}
+        <div class="box mt-3 border rounded">
+            <h4 class="text-secondary">{{ choice.text }}</h4>
+            <p><a href="{% url 'edit_choice' choice.pk %}">Edit</a> ||| <a href="{% url 'delete_choice' choice.pk %}">Удалить</a></p>
+            <p>Этот вариант ответа был выбран : {{ qty_of_vote }}</p>
+
+        </div>
+    {% empty %}
+        <p>Нет вариантов ответа</p>
+    {% endfor %}
+
+    {% url "create_choice" poll.pk as action_url %}
+    {% include 'partial/form.html' with action_url=action_url form_method='post' %}
+
+{% endblock %}

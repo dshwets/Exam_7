@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Create{% endblock %}
+
+{% block content %}
+    <h1>Create Poll</h1>
+    <h3>{{ poll.question }}</h3>
+    <form action="{% url 'create_answer' poll.pk %}" method="post">
+        {% csrf_token %}
+            <select name="choice" id="cars">
+                {% for choice in choices %}
+                    <option value="{{ choice.pk }}">{{ choice.text }}</option>
+                    <p>{{ choice.text }}</p>
+                {% empty %}
+                    <p>Нет вариантов выбора</p>
+                {% endfor %}
+            <select>
+        <button class="btn btn-outline-success" type="submit">Проголосовать</button>
+    </form>
+
+{% endblock %}
